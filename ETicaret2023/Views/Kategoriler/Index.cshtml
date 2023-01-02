@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ETicaret2023.Models.Kategoriler>
+
+@{
+    ViewBag.Title = "KATEGORİ İNDEX";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("YENİ KAYIT", "Create", null, new {@class="btn btn-success"})
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.KategoriAdi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.KategoriAdi)
+        </td>
+        <td>
+            @Html.ActionLink("DÜZENLE", "Edit", new { id=item.KategoriID },new { @class = "btn btn-success btn-sm" })
+            @Html.ActionLink("DETAY", "Details", new { id=item.KategoriID },new { @class = "btn btn-warning btn-sm" }) 
+            @Html.ActionLink("SİL", "Delete", new { id=item.KategoriID },new { @class = "btn btn-danger btn-sm" })
+        </td>
+    </tr>
+}
+</table>

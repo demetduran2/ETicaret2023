@@ -1,0 +1,27 @@
+﻿@model ETicaret2023.Models.Kategoriler
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>KATEGORİ DETAY</h2>
+
+<div>
+    <h4>Kategoriler</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.KategoriAdi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KategoriAdi)
+        </dd>
+
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("DÜZENLE", "Edit", new { id = Model.KategoriID }) |
+    @Html.ActionLink("LİSTEYE DÖN", "Index")
+</p>
