@@ -1,7 +1,10 @@
-﻿@using ETicaret2023.Models;
+﻿@using ETicaret2023.Models
+@model List<Urunler>
 @{
-    ViewBag.Title = "ANASAYFA İNDEX";
+    Kategoriler kat = (Kategoriler)ViewBag.kategori;
+    ViewBag.Title = kat.KategoriAdi;//sayfanın başında tıkladığımız kategori adı gözüksün diye
 }
+
 
 <div class="jumbotron">
     <h1>ASP.NET MVC ETicaret Projesi</h1>
@@ -14,15 +17,15 @@
             @foreach (var item in (List<Kategoriler>)ViewBag.Kategoriler)
             {
                 <li>
-                    @Html.ActionLink(item.KategoriAdi, "Kategori", new {id=item.KategoriID})
+                    @Html.ActionLink(item.KategoriAdi, "Kategori", new { id = item.KategoriID })
                 </li>
             }
         </ul>
     </div>
     <div class="col-md-9">
-        @*<h2>ÜRÜNLER</h2>*@
+        <h2>ÜRÜNLER</h2>
         <div class="row">
-            @foreach (var item in (List<Urunler>)ViewBag.Urunler)
+            @foreach (Urunler item in Model)
             {
                 <div class="col-md-4" style="border:1px dotted">
                     <h5>@item.UrunAdi</h5>
@@ -38,3 +41,4 @@
         </div>
     </div>
 </div>
+

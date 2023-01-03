@@ -12,7 +12,7 @@ namespace ETicaret2023.Controllers
 {
     public class KategorilerController : Controller
     {
-        private ETicaretEntities1 db = new ETicaretEntities1();
+        ETicaretEntities db = new ETicaretEntities();
 
         // GET: Kategoriler
         public ActionResult Index()

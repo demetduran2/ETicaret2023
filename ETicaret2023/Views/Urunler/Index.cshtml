@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ETicaret2023.Models.Urunler>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "ANASAYFA";
 }
 
 <h2>Index</h2>
@@ -32,13 +32,14 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model) 
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.UrunAdi)
         </td>
         <td>
-            <img src="~/Resim/@(item.UrunID).jpg" width="100" />
+            <img src="~/Resim/@(item.UrunID).jpg" width="50" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.UrunAciklamasi)

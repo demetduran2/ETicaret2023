@@ -13,10 +13,10 @@ namespace ETicaret2023.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ETicaretEntities1 : DbContext
+    public partial class ETicaretEntities : DbContext
     {
-        public ETicaretEntities1()
-            : base("name=ETicaretEntities1")
+        public ETicaretEntities()
+            : base("name=ETicaretEntities")
         {
         }
     
