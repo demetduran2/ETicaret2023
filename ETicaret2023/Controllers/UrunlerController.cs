@@ -82,7 +82,7 @@ namespace ETicaret2023.Controllers
                 return HttpNotFound();
             }
             ViewBag.KategoriID = new SelectList(db.Kategoriler, "KategoriID", "KategoriAdi", urunler.KategoriID);
-            ViewBag.UrunID = new SelectList(db.SiparisDetay, "SiparisDetayID", "SiparisDetayID", urunler.UrunID);
+            //ViewBag.UrunID = new SelectList(db.SiparisDetay, "SiparisDetayID", "SiparisDetayID", urunler.UrunID);
             return View(urunler);
         }
 
@@ -91,16 +91,22 @@ namespace ETicaret2023.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UrunID,UrunAdi,KategoriID,UrunAciklamasi,UrunFiyati")] Urunler urunler)
+        public ActionResult Edit(Urunler urunler, HttpPostedFileBase urunResim)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(urunler).State = EntityState.Modified;
                 db.SaveChanges();
+                if (urunResim != null)
+                {
+                    string dosya = Path.Combine(Server.MapPath("~/Resim/"),
+                    urunler.UrunID + ".jpeg");
+                    urunResim.SaveAs(dosya);
+                }
                 return RedirectToAction("Index");
             }
             ViewBag.KategoriID = new SelectList(db.Kategoriler, "KategoriID", "KategoriAdi", urunler.KategoriID);
-            ViewBag.UrunID = new SelectList(db.SiparisDetay, "SiparisDetayID", "SiparisDetayID", urunler.UrunID);
+            //ViewBag.UrunID = new SelectList(db.SiparisDetay, "SiparisDetayID", "SiparisDetayID", urunler.UrunID);
             return View(urunler);
         }
 

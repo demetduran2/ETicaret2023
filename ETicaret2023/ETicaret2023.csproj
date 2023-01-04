@@ -320,10 +320,10 @@
     <Content Include="Views\Urunler\Index.cshtml" />
     <Content Include="Views\Home\Kategori.cshtml" />
     <Content Include="Views\Home\Urun.cshtml" />
+    <Content Include="Views\Sepet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Sepet\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

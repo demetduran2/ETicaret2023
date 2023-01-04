@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,21 +16,23 @@ namespace ETicaret2023.Controllers
         // GET: Sepet
         public ActionResult Index()
         {
-            return View();
+            string kulID = User.Identity.GetUserId();
+            return View(db.Sepet.Where(x=>x.KullaniciID==kulID).ToList());
         }
-        public ActionResult SepeteEkle(int id,int adet)
+
+        public ActionResult SepeteEkle(int UrunID,int adet)
         {
             string kulID = User.Identity.GetUserId();//login olan kullanıcının idsiini alır
-            Sepet sepettekiurun=db.Sepet.FirstOrDefault(x=>x.UrunID==id && x.KullaniciID==kulID);
+            Sepet sepettekiurun=db.Sepet.FirstOrDefault(x=>x.UrunID==UrunID && x.KullaniciID==kulID);
 
-            Urunler urun = db.Urunler.Find(id);
+            Urunler urun = db.Urunler.Find(UrunID);
 
             if (sepettekiurun==null)
             {
                 Sepet yeniurun = new Sepet()
                 {
                     KullaniciID = kulID,
-                    UrunID = id,
+                    UrunID = UrunID,
                     Adet = adet,
                     ToplamTutar = adet*urun.UrunFiyati
                 };
@@ -40,6 +43,32 @@ namespace ETicaret2023.Controllers
                 sepettekiurun.Adet = sepettekiurun.Adet + adet;
                 sepettekiurun.ToplamTutar=sepettekiurun.Adet*urun.UrunFiyati;
             }
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult SepetGuncelle(int? id,int adet)
+        {
+            if (id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Sepet sepet=db.Sepet.Find(id);
+            if (sepet==null)
+            {
+                return HttpNotFound();
+            }
+            Urunler urun=db.Urunler.Find(sepet.UrunID);
+                sepet.Adet = adet;
+                sepet.ToplamTutar = sepet.Adet * urun.UrunFiyati;
+            db.SaveChanges();
+            return RedirectToAction("Index"); 
+        }
+        
+        public ActionResult Delete(int id)
+        {
+            Sepet sepet = db.Sepet.Find(id);
+            db.Sepet.Remove(sepet);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
