@@ -232,13 +232,13 @@
         </Association>
         <Association Name="FK_SiparisDetay_Urunler">
           <End Role="Urunler" Type="Self.Urunler" Multiplicity="1" />
-          <End Role="SiparisDetay" Type="Self.SiparisDetay" Multiplicity="0..1" />
+          <End Role="SiparisDetay" Type="Self.SiparisDetay" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Urunler">
               <PropertyRef Name="UrunID" />
             </Principal>
             <Dependent Role="SiparisDetay">
-              <PropertyRef Name="SiparisDetayID" />
+              <PropertyRef Name="UrunID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -534,13 +534,13 @@
         </Association>
         <Association Name="FK_SiparisDetay_Urunler">
           <End Role="Urunler" Type="Self.Urunler" Multiplicity="1" />
-          <End Role="SiparisDetay" Type="Self.SiparisDetay" Multiplicity="0..1" />
+          <End Role="SiparisDetay" Type="Self.SiparisDetay" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Urunler">
               <PropertyRef Name="UrunID" />
             </Principal>
             <Dependent Role="SiparisDetay">
-              <PropertyRef Name="SiparisDetayID" />
+              <PropertyRef Name="UrunID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

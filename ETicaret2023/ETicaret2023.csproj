@@ -176,6 +176,7 @@
     <Compile Include="Controllers\KategorilerController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SepetController.cs" />
+    <Compile Include="Controllers\SiparisController.cs" />
     <Compile Include="Controllers\UrunlerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -321,6 +322,10 @@
     <Content Include="Views\Home\Kategori.cshtml" />
     <Content Include="Views\Home\Urun.cshtml" />
     <Content Include="Views\Sepet\Index.cshtml" />
+    <Content Include="Views\Siparis\Index.cshtml" />
+    <Content Include="Views\Siparis\SiparisTamamla.cshtml" />
+    <Content Include="Views\Siparis\Tamamlandi.cshtml" />
+    <Content Include="Views\Siparis\Hatali.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

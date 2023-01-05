@@ -18,6 +18,7 @@ namespace ETicaret2023.Models
         public Urunler()
         {
             this.Sepet = new HashSet<Sepet>();
+            this.SiparisDetay = new HashSet<SiparisDetay>();
         }
     
         public int UrunID { get; set; }
@@ -29,6 +30,7 @@ namespace ETicaret2023.Models
         public virtual Kategoriler Kategoriler { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sepet> Sepet { get; set; }
-        public virtual SiparisDetay SiparisDetay { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SiparisDetay> SiparisDetay { get; set; }
     }
 }
