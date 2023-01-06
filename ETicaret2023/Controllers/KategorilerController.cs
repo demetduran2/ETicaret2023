@@ -4,20 +4,34 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using ETicaret2023.Models;
+using Newtonsoft.Json;
 
 namespace ETicaret2023.Controllers
 {
     public class KategorilerController : Controller
     {
+        
         ETicaretEntities db = new ETicaretEntities();
-
+        HttpClient client = new HttpClient();//apiye erişmek için
         // GET: Kategoriler
         public ActionResult Index()
         {
-            return View(db.Kategoriler.ToList());
+            List<Kategoriler> kategoriler = new List<Kategoriler>();
+            client.BaseAddress = new Uri("https://localhost:44354/api/");
+            var response = client.GetAsync("Kategori");
+            response.Wait();
+            var result=response.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsStringAsync();
+                data.Wait();
+                kategoriler= JsonConvert.DeserializeObject<List<Kategoriler>>(data.Result);
+            }
+            return View(kategoriler);
         }
 
         // GET: Kategoriler/Details/5
@@ -50,8 +64,10 @@ namespace ETicaret2023.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Kategoriler.Add(kategoriler);
-                db.SaveChanges();
+                client.BaseAddress = new Uri("https://localhost:44354/api/");
+                var result = client.PostAsync<Kategoriler>("Kategori",kategoriler);
+                //db.Kategoriler.Add(kategoriler);
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
