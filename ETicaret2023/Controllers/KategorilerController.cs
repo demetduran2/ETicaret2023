@@ -65,10 +65,16 @@ namespace ETicaret2023.Controllers
             if (ModelState.IsValid)
             {
                 client.BaseAddress = new Uri("https://localhost:44354/api/");
-                var result = client.PostAsync<Kategoriler>("Kategori",kategoriler);
+                var response = HttpClientExtensions.PostAsJsonAsync<Kategoriler>(client, "Kategori", kategoriler);
+                response.Wait();
+                var result = response.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
                 //db.Kategoriler.Add(kategoriler);
                 //db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(kategoriler);
             }
 
             return View(kategoriler);
