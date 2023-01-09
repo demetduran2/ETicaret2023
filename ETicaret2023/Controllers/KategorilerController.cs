@@ -15,8 +15,9 @@ namespace ETicaret2023.Controllers
     public class KategorilerController : Controller
     {
         
-        ETicaretEntities db = new ETicaretEntities();
+        //ETicaretEntities db = new ETicaretEntities();
         HttpClient client = new HttpClient();//apiye erişmek için
+
         // GET: Kategoriler
         public ActionResult Index()
         {
@@ -35,18 +36,35 @@ namespace ETicaret2023.Controllers
         }
 
         // GET: Kategoriler/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id)//yazdığımız kodu metodlaştırdık
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Kategoriler kategoriler = db.Kategoriler.Find(id);
+            Kategoriler kategoriler = KategoriBul(id);
             if (kategoriler == null)
             {
                 return HttpNotFound();
             }
             return View(kategoriler);
+        }
+
+        private Kategoriler KategoriBul(int? id)
+        {
+            Kategoriler kategoriler = null;
+            //Kategoriler kategoriler = db.Kategoriler.Find(id);
+            client.BaseAddress = new Uri("https://localhost:44354/api/");
+            var response = client.GetAsync("Kategori/" + id);
+            response.Wait();
+            var result = response.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                var data = result.Content.ReadAsAsync<Kategoriler>();
+                data.Wait();
+                kategoriler = data.Result;
+            }
+            return kategoriler;
         }
 
         // GET: Kategoriler/Create
@@ -87,7 +105,7 @@ namespace ETicaret2023.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Kategoriler kategoriler = db.Kategoriler.Find(id);
+            Kategoriler kategoriler = KategoriBul(id);
             if (kategoriler == null)
             {
                 return HttpNotFound();
@@ -104,9 +122,18 @@ namespace ETicaret2023.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(kategoriler).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                client.BaseAddress = new Uri("https://localhost:44354/api/");
+                var response = client.PutAsJsonAsync<Kategoriler>("Kategori", kategoriler);
+                response.Wait();
+
+                var result = response.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                //db.Entry(kategoriler).State = EntityState.Modified;
+                //db.SaveChanges();
+                
             }
             return View(kategoriler);
         }
@@ -118,7 +145,7 @@ namespace ETicaret2023.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Kategoriler kategoriler = db.Kategoriler.Find(id);
+            Kategoriler kategoriler = KategoriBul(id);
             if (kategoriler == null)
             {
                 return HttpNotFound();
@@ -131,19 +158,18 @@ namespace ETicaret2023.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Kategoriler kategoriler = db.Kategoriler.Find(id);
-            db.Kategoriler.Remove(kategoriler);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            client.BaseAddress = new Uri("https://localhost:44354/api/");
+            var response = client.DeleteAsync("Kategori/" + id);
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            var result = response.Result;
+            if (result.IsSuccessStatusCode)
             {
-                db.Dispose();
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
+            /*Kategoriler kategoriler = db.Kategoriler.Find(id);*/
+            //db.Kategoriler.Remove(kategoriler);
+            //db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

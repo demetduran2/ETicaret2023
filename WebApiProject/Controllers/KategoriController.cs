@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -32,8 +33,8 @@ namespace WebApiProject.Controllers
             Kategoriler kategori = db.Kategoriler.Find(id);
             Kategori kat = new Kategori()
             {   
-                Id=kategori.KategoriID,
-                Name=kategori.KategoriAdi
+                KategoriId=kategori.KategoriID,
+                KategoriAdi=kategori.KategoriAdi
             };
             return Ok(kat);
         }
@@ -45,5 +46,22 @@ namespace WebApiProject.Controllers
             db.SaveChanges();
             return Ok();
         }
+
+        public IHttpActionResult Put([FromBody] Kategoriler kategori)
+        {
+            db.Entry(kategori).State = EntityState.Modified;
+            db.SaveChanges();
+            return Ok();
+        }
+        
+        public IHttpActionResult Delete(int id) 
+        {
+            Kategoriler kategori = db.Kategoriler.Find(id);
+            db.Kategoriler.Remove(kategori);
+            db.SaveChanges();
+            return Ok();
+        }
+
+
     }
 }
